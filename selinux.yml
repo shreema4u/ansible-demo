@@ -1,0 +1,11 @@
+---
+ - name: Selnux remove
+   hosts: node2
+   become: yes
+   
+
+   tasks:
+      - name: Selinux change to mode permissive
+        ansible.posix.selinux:
+          policy: targeted
+          state: permissive

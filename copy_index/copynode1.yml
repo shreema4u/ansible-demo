@@ -1,0 +1,19 @@
+---
+ - name: copy index.html from node1
+   hosts: node1
+   tasks:
+     - name: copy from node1 to master
+       fetch:
+        src: /etc/apache2/index.html 
+        dest: $HOME/Ansible_script/copy_index/node1
+
+
+ - name: copy index.html from node2
+   hosts: node2
+   tasks:
+     - name: copy from node2 to master
+       fetch:
+        src: /etc/httpd/conf/index.html
+        dest: $HOME/Ansible_script/copy_index/node2
+
+

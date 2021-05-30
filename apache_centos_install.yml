@@ -1,0 +1,27 @@
+---
+- name: Apache insallation
+  hosts: node2
+  remote_user: vagrant
+  become: yes
+
+
+  tasks:
+        - name: Apache latest version installation
+          yum: 
+                pkg: httpd 
+                state: present
+        
+        - name: Enable service to start on boot up
+          service:
+                name: httpd
+                state: restarted   
+                enabled: yes
+
+          notify:
+          - Restart apache
+
+  handlers:
+        - name: Restart apache
+          service:
+                name: httpd
+                state: restarted

@@ -1,0 +1,5 @@
+---
+ - name: install appache in ubuntu 
+   apt:
+     name: apache2
+     state: latest

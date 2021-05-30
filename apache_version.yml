@@ -1,0 +1,20 @@
+---
+ - name: Display node1 appache version
+   hosts: node1
+   tasks:
+     - shell: apache2 -v
+       register: shell_result
+
+     - debug:
+        var: shell_result.stdout_lines
+
+
+ - name: Display node2 appache version
+   hosts: node2
+   tasks:
+     - shell: httpd -v
+       register: shell_result
+
+     - debug:
+        var: shell_result.stdout_lines
+ 

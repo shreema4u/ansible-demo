@@ -1,0 +1,6 @@
+---
+ - name: start service ubuntu 
+   service:
+     name: apache2
+     state: restarted
+     enabled: yes
