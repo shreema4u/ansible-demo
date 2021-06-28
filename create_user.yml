@@ -1,35 +1,41 @@
 ---
- - hosts: node1,node2
-   remote_user: root
-   become: no
+ - hosts: nodes
+   remote_user: vagrant
+   become: yes
 
    tasks:
+   - name:  Create group if not present
+     group:
+        name: cvim
+        state: present
 
-    - name: Add Unix Admins users
-      user: name={{ items }} group=users groups=cvim
-      with_items:
+   - name: Add Unix Admins users
+     user: name={{ item }} groups=cvim shell=/bin/bash
+     with_items:
         - cvim1
         - cvim2
         - cvim3
 
-    - name: Make sure we have a 'cvim' group
-      group:
-        name=cvim
-        state=present
+          #   - name: Make sure we have a 'cvim' group
+          # group:
+          #name=cvim
+          # state=present
 
-    - name: Allow cvim group to have passwordless sudo
-      lineinfile:
-        dest: /etc/sudoers.d
+   - name: Allow cvim group to have passwordless sudo
+     lineinfile:
+        dest: /etc/sudoers
         state: present
         regexp: '^%cvim'
         line: '%cvim ALL=(ALL) NOPASSWD: ALL'
 
-    - name: Add sudoers users to cvim group
-      user: name=deployer groups=cvim append=yes state=present createhome=yes
+        #    - name: Add sudoers users to cvim group
+        # user: name=deployer groups=cvim append=yes state=present createhome=yes
 
-    - name: Disallow root SSH access
-      lineinfile: dest=/etc/ssh/sshd_config
-                  regexp="^PermitRootLogin"
-                  line="PermitRootLogin no"
-                  state=present
-      notify: Restart ssh
+   - name: Disallow root SSH access
+     lineinfile:
+             dest: /etc/ssh/sshd_config
+             regexp: "^PermitRootLogin"
+             line: "PermitRootLogin no"
+             state: present
+
+     #notify: Restart ssh

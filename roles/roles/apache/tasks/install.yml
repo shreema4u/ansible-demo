@@ -1,5 +1,16 @@
 --- 
- - name: installation apache server
+ - name: installation apache server in CentOS
    yum:
-        name: httpd
-        state: installed
+        name: "{{ item }}"
+        state: latest
+   with_items:
+        - httpd
+   when: ansible_distribution == 'CentOS'
+
+ - name: installation apache server in Ubuntu
+   apt:
+        name: "{{ item }}"
+        state: latest
+   with_items:
+         - apache2
+   when: ansible_distribution == 'Ubuntu'

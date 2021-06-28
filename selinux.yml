@@ -1,6 +1,6 @@
 ---
  - name: Selnux remove
-   hosts: node2
+   hosts: nodes
    become: yes
    
 
@@ -9,3 +9,10 @@
         ansible.posix.selinux:
           policy: targeted
           state: permissive
+        when: ansible_distribution == 'CentOS'
+
+      - name: Selinux change to mode permissive for ubuntu 
+        selinux:
+          policy: targeted
+          state: permissive
+        when: ansible_distribution == 'Ubuntu'    

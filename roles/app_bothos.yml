@@ -1,0 +1,6 @@
+---
+ - name: roles for apache centos and ubuntu
+   hosts: nodes
+   become: true
+   roles:
+           - apache

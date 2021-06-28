@@ -1,13 +1,21 @@
 ---
 - name: Apache insallation
-  hosts: node2
-  remote_user: vagrant
+  hosts: nodes
+  #remote_user: vagrant
   become: yes
 
 
   tasks:
-        - name: Apache latest version installation
+        - name: Apache uninstallation
+          apt:
+           name: apache2
+           autoremove: yes
+           state: absent
+          when: ansible_distribution == 'Ubunu'
+                #  enabled: yes
+                #
+        - name: httpd uninstall
           yum:
-                pkg: httpd
-                state: absent
-
+            name: httpd
+            state: absent
+          when: ansible_distribution == 'CentOS'

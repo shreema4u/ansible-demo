@@ -4,3 +4,11 @@
      name: httpd
      state: started
      enabled: yes
+   when: ansible_distribution == 'CentOS'
+ - name : start appache in ubuntu
+   service:
+     name: apache2
+     state: started
+     enabled: yes
+   when: ansible_distribution == 'Ubuntu' 
+          

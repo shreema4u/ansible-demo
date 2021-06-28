@@ -1,5 +1,5 @@
 ---
-- hosts: node1
+- hosts: nodes
   become: yes
   tasks:
         - name: install apache2

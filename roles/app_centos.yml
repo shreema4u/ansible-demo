@@ -1,6 +1,0 @@
----
- - name: roles for apache centos
-   hosts: node2
-   become: true
-   roles:
-           - apache
