@@ -1,0 +1,13 @@
+- name: restart firewalld
+  service: 
+    name: firewalld
+    enabled: true
+    state: restarted
+  listen: "restart web services"
+  
+- name: restart httpd
+  service:
+    name: httpd
+    enabled: true
+    state: started
+  listen: "restart web services"

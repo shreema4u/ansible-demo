@@ -2,6 +2,8 @@
  - name: OS specific appache uninstalltion
    hosts: nodes
    become: yes
+   vars:
+    ansible_python_interpreter: auto
 
    tasks:
    - name: UniInstall appache in ubuntu
@@ -10,7 +12,7 @@
       state: absent
      when: ansible_distribution == 'Ubuntu'
 
-   - name: Uninstall appachein CentOS
+   - name: Uninstall appache in CentOS
      yum:
       name: httpd
       state: absent

@@ -2,17 +2,20 @@
  - name: Display node1 appache version
    hosts: nodes
    tasks:
-     - shell: apache2 -v
-       register: shell_result
+     - name: Appache version in Ubuntu 
+       shell: apache2 -v
+       debug:
+         var: shell_result
        when: ansible_distribution == 'Ubuntu'
 
-     - debug:
-        var: shell_result.stdout_lines
+          # - debug:
+                #            var: shell_result.stdout_lines
 
 
-     - shell: httpd -v
-       register: shell_result
-       when: ansible_distribution == 'CentOS'
+          #        - name: Apache version in CentOS
+          #shell: httpd -v
+          #register: shell_result2
+          #when: ansible_distribution == 'CentOS'
 
-     - debug:
-        var: shell_result.stdout_lines
+          #- debug:
+          # var: shell_result2.stdout_lines

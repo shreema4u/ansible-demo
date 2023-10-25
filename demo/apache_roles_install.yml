@@ -1,0 +1,47 @@
+---
+- name: This playbook installs apache
+  hosts: nodes
+  #gather_facts: no
+  become: yes
+  
+  tasks:
+  - name: install httpd in CentOs
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_os_family == 'RedHat'
+    # notify:
+    #   - start pkg
+    
+  - name: install apache2 in ubunu
+    apt:
+      name: apache2
+      state: latest
+    when: ansible_os_family == 'Debian'
+    notify:
+      - start pkg
+      - start apache2
+
+  # - name: Flush handlers
+  #   meta: flush_handlers     
+
+# Handlers section of playbook restart apache in CentOs and Ubunu remote nodes
+
+  handlers:
+  - name: start pkg
+    systemd:
+      name: httpd
+      state: started
+    when: ansible_os_family == 'RedHat'
+   
+
+# ###Error handlling line to ignore_error
+   # ignore_errors: true
+    
+  - name: start apache2
+    ansible.builtin.service:
+      name: apache2
+      state: started
+    when: ansible_os_family == 'Debian'
+    
+

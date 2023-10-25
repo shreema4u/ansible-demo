@@ -12,7 +12,7 @@
        - apache2
      when: ansible_distribution == 'Ubuntu'
 
-   - name: Install appachein CentOS
+   - name: Install appache in CentOS
      yum:
       name: "{{ item }}"
       state: latest
@@ -20,14 +20,14 @@
        - httpd
      when: ansible_distribution == 'CentOS'
 
-   - name: Restart Apache
+   - name: Restart Apache in node1
      service:
       name: apache2
       state: restarted
       enabled: yes
      when: ansible_distribution == 'Ubuntu'
 
-   - name: Restart httpd
+   - name: Restart httpd in node2
      service:
       name: httpd
       state: restarted

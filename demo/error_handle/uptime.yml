@@ -1,0 +1,16 @@
+---
+  - name: Check uptime
+    hosts: nodes
+    become: yes
+    vars:
+      ansible_python_interpreter: auto
+    tasks:
+      - name: how much the uptime
+        shell: uptime
+        register: uptime_msg
+        changed_when: "'Sucess' in uptime_msg"
+
+      - name: display uptime
+        debug:
+          msg: '{{ uptime_msg }}'
+        failed_when: myvariable is defined

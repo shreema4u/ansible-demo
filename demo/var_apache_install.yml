@@ -1,0 +1,66 @@
+---
+- name: This playbook installs apache
+  hosts: nodes
+  become: yes
+  #ignore_unreachable: true
+  #force_handlers: yes
+  vars:
+    ansible_python_interpreter: auto
+  #ignore_unreachable: true    # ignore error if the remote note is unreachable
+  tasks:
+    - name: Install httpd in CentOs
+      #apt:
+      yum:
+        name: httpd
+        state: latest
+      when: ansible_distribution == 'CentOS'
+    #   register: error_out
+    
+    # - name: Display error out 
+    #   debug:
+    #     msg: '{{ error_out }}'
+      
+    - name: Install apache2 in Ubunu
+      apt:
+        name: apache2
+        state: latest
+      when: ansible_distribution == 'Ubuntu'
+
+      ignore_errors: true 
+    - name: Copy index.html file
+      copy:
+        src: /tmp/index.html
+        dest: /var/www/html/index.html
+      #when: ansible_distribution == 'Ubuntu' and 'CentOS'
+      notify: 
+        - Restart pkgs
+        - Restart apache2
+
+    - name: Restart everything
+      command: echo "this task will restart the web services"
+      notify: "restart web services"
+
+# Handlers section of playbook restart apache in CentOs and Ubunu remote nodes
+
+  handlers:
+  
+    - name: Restart pkgs
+      service:
+        name: httpd
+        enabled: true
+        state: restarted       
+      when: ansible_distribution == 'CentOS'
+      listen: "restart web services"
+
+  #####Error handlling line to ignore_error
+      #ignore_errors: true   
+
+    - name: Restart apache2
+      service:
+        name: apache2
+        enabled: true
+        state: restarted
+      when: ansible_distribution == 'Ubuntu'
+      listen: "restart web services"
+
+    

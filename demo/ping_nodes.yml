@@ -1,0 +1,11 @@
+---
+ - name: ping to all nodes
+   hosts: nodes
+   become: yes
+   vars:
+    ansible_python_interpreter: auto
+   tasks:
+
+        - name: Test host connectivity
+          ping:
+

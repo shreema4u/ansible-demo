@@ -1,0 +1,5 @@
+---
+# defaults file for setup-apache
+web_pkg: httpd
+firewalld_pkg: firewalld
+web_pkg2: apache2
