@@ -1,5 +1,5 @@
 ---
- - name: OS specific appache uninstalltion
+ - name: OS specific appache uninstalltion ofapache and firewalld
    hosts: nodes
    become: yes
    vars:
@@ -16,4 +16,42 @@
      yum:
       name: httpd
       state: absent
-     when: ansible_distribution == 'CentOS'
+     when: ansible_distribution == 'RedHat'
+   
+   - name: Check if firewalld package is installed (on RHEL).
+     command: yum list installed firewalld
+     register: firewalld_installed
+     ignore_errors: true
+     changed_when: false
+     when:
+      - ansible_os_family == "RedHat"
+     check_mode: false
+
+   - name: Disable the firewalld service (on RHEL, if configured).
+     service:
+      name: firewalld
+      state: 
+        - stopped
+          enabled: false
+     when:
+       - ansible_os_family == "RedHat"
+       - firewalld_installed.rc == 0
+
+   - name: Check if ufw package is installed (on Ubuntu).
+     command: service ufw status
+     register: ufw_installed
+     ignore_errors: true
+     changed_when: false
+     when:
+       - ansible_distribution == "Ubuntu"
+     check_mode: false
+
+   - name: Disable the ufw firewall (on Ubuntu, if configured).
+     service:
+       name: ufw
+       state: 
+        - stopped
+       enabled: false
+     when:
+       - ansible_distribution == "Ubuntu"
+       - ufw_installed.rc == 0

@@ -7,7 +7,16 @@
   
 - name: restart httpd
   service:
-    name: httpd
+    name: '{{ web_pkg }}'
     enabled: true
     state: started
+  when: ansible_distribution == "RedHat" 
+  listen: "restart web services"
+
+- name: Restart Apache in node1
+  service:
+    name: '{{ web_pkg2 }}'
+    state: restarted
+    enabled: yes
+  when: ansible_distribution == 'Ubuntu'
   listen: "restart web services"

@@ -1,18 +1,18 @@
-- name: Install httpd and firewalld
+- name: Install httpd and firewalld in RHEL
   yum:
     name: 
       - '{{ web_pkg }}'
       - '{{ firewalld_pkg }}'
     state: latest
-  when: ansible_distribution == 'CentOS'
+  when: ansible_distribution == "RedHat"
 
-- name: Install apace2 and firewalld
+- name: Install apace2 and firewalld in Ubuntu
   apt:
     name:
       - '{{ web_pkg2 }}'
       - '{{ firewalld_pkg }}'
     state: latest
-  when: ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == "Ubuntu"
   
 - name: firewalld permit http service
   firewalld:
@@ -20,7 +20,7 @@
     permanent: true    #Should this configuration be in the running firewalld configuration or persist across reboots.
     state: enabled
     immediate: no     #Should this configuration be applied immediately, if set as permanent.
-  when: ansible_distribution == 'CentOS' and 'Ubuntu'
+  when: ansible_distribution == "RedHat" and "Ubuntu"
 
 
   

@@ -18,7 +18,7 @@
       state: latest
      with_items:
        - httpd
-     when: ansible_distribution == 'CentOS'
+     when: ansible_distribution == 'RedHat'
 
    - name: Restart Apache in node1
      service:
@@ -32,6 +32,6 @@
       name: httpd
       state: restarted
       enabled: yes
-     when: ansible_distribution == 'CentOS'
+     when: ansible_distribution == 'RedHat'
 
 

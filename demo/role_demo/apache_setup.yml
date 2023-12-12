@@ -17,7 +17,7 @@
         uri:
           url: http://localhost:8080/index.html
           status_code: 200
-  #         register: out
+        #register: out
 
   # - name: print the msg
   #   debug:
