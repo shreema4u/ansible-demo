@@ -1,5 +1,5 @@
 ---
-  - name: Installation and setup apache
+  - name: Installation and setup apache on RHEL and Ubuntu
     hosts: nodes
     become: yes
     vars:
