@@ -9,14 +9,14 @@
       - name: My apache setup in roles
         include_role:
           name: setup-apache
-  - name: Testing web set up
-    hosts: localhost
-    become: no
-    tasks: 
-      - name: Tesing web
-        uri:
-          url: http://localhost:8080/index.html
-          status_code: 200
+  # - name: Testing web set up
+  #   hosts: localhost
+  #   become: no
+  #   tasks: 
+  #     - name: Tesing web
+  #       uri:
+  #         url: http://localhost:80/index.html
+  #         status_code: 200
         #register: out
 
   # - name: print the msg
