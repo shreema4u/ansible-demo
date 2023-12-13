@@ -6,52 +6,67 @@
     ansible_python_interpreter: auto
 
    tasks:
-   - name: UniInstall appache in ubuntu
+   - name: UniInstall appache on Ubuntu
      apt:
       name: apache2
       state: absent
      when: ansible_distribution == 'Ubuntu'
 
-   - name: Uninstall appache in CentOS
+   - name: Uninstall appache on RedHat
      yum:
       name: httpd
       state: absent
      when: ansible_distribution == 'RedHat'
    
-   - name: Check if firewalld package is installed (on RHEL).
-     command: yum list installed firewalld
-     register: firewalld_installed
-     ignore_errors: true
-     changed_when: false
-     when:
-      - ansible_os_family == "RedHat"
-     check_mode: false
+  #  - name: Check if firewalld package is installed (on RHEL).
+  #    command: yum list installed firewalld
+  #    register: firewalld_installed
+  #    ignore_errors: true
+  #    changed_when: false
+  #    when:
+  #     - ansible_os_family == "RedHat"
+  #    check_mode: false
 
    - name: Disable the firewalld service (on RHEL, if configured).
      service:
       name: firewalld
-      state: 
-        - stopped
-          enabled: false
+      state: stopped
+      enabled: false
      when:
        - ansible_os_family == "RedHat"
-       - firewalld_installed.rc == 0
-
-   - name: Check if ufw package is installed (on Ubuntu).
-     command: service ufw status
-     register: ufw_installed
-     ignore_errors: true
-     changed_when: false
+  #     - firewalld_installed.rc == 0
+   - name: Remove firewalld package
+     package:
+      name: firewalld
+      state: absent  #
      when:
-       - ansible_distribution == "Ubuntu"
-     check_mode: false
+      - ansible_os_family == "RedHat"
+  #    - firewalld_installed.rc == 0
+
+  #  - name: Check if ufw package is installed (on Ubuntu).
+  #    command: service ufw status
+  #    register: ufw_installed
+  #    ignore_errors: true
+  #    changed_when: false
+  #    when:
+  #      - ansible_distribution == "Ubuntu"
+  #    check_mode: false
 
    - name: Disable the ufw firewall (on Ubuntu, if configured).
      service:
        name: ufw
-       state: 
-        - stopped
+       state: stopped
        enabled: false
      when:
        - ansible_distribution == "Ubuntu"
-       - ufw_installed.rc == 0
+      #  - ufw_installed.rc == 0
+   - name: Remove ufw package
+     apt:
+        name: ufw
+        state: absent
+     when:
+       - ansible_distribution == "Ubuntu"
+ #      - ufw_installed.rc == 0
+       
+
+     
