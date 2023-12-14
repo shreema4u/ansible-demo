@@ -1,0 +1,14 @@
+---
+ - hosts: nodes
+   become: true
+   vars:
+     user_names:
+       - cvim1
+       - cvim2
+   tasks:
+    - name: Remove Users
+      user:
+        name: "{{ item }}"
+        state: absent
+        remove: true
+      loop: "{{ user_names }}"
