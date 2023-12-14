@@ -8,4 +8,9 @@
 
         - name: Test host connectivity
           ping:
+          register: var_ping
+
+        - name: Ping message
+          debug:
+            var: var_ping 
 
