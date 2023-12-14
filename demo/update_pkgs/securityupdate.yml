@@ -1,0 +1,13 @@
+---
+ - name: Playbook for seurity update
+   hosts: nodes
+   become: yes
+   vars:
+    ansible_python_interpreter: auto
+
+   tasks:
+     - name: update package role name 
+       include_role:
+          name: pkgs_latest
+          
+     

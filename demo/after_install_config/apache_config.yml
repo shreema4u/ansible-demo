@@ -1,0 +1,59 @@
+---
+  - name: After Installation config of apache on RHEL and Ubuntu
+    hosts: nodes
+    become: yes
+    vars:
+      ansible_python_interpreter: auto
+      
+    tasks:
+      # - name: After apache installtion configuration
+      #   include_role:
+      #     name: setup-apache
+    
+      - name: enabled mod_rewrite
+        apache2_module: 
+          name: rewrite 
+          state: present
+        when: ansible_distribution == "Ubuntu" #or ansible_distribution == "RedHat"
+        notify:
+          - restart apache2
+
+      - name: apache2 listen on port 8082
+        lineinfile: 
+          dest: /etc/apache2/ports.conf 
+          regexp: "^Listen 8082" 
+          line: "Listen 80" 
+          state: present
+        when: ansible_distribution == "Ubuntu"
+        notify:
+          - restart apache2
+
+      - name: apache2 ec2 ubuntu on port 8082
+        lineinfile: 
+          dest: /etc/apache2/sites-available/000-default.conf 
+          regexp: "^<VirtualHost *:8082>"
+          line: "<VirtualHost *:80>" 
+          state: present
+        when: ansible_distribution == "Ubuntu"
+        notify:
+          - restart apache2
+
+      - name: Change HTTPD Port to 8082
+        lineinfile:
+          path: /etc/httpd/conf/httpd.conf
+          regexp: '^Listen '
+          line: 'Listen 80'
+        when: ansible_distribution == "RedHat"
+        notify: restart httpd
+
+    handlers:
+      - name: restart apache2
+        service: 
+          name: apache2 
+          state: restarted
+        when: ansible_distribution == "Ubuntu"
+      - name: restart httpd
+        systemd:
+          name: httpd
+          state: restarted
+        when: ansible_distribution == "RedHat"

@@ -2,14 +2,15 @@
  - name: Selnux remove
    hosts: nodes
    become: yes
-   
+   vars:
+      ansible_python_interpreter: auto
 
    tasks:
-      - name: Selinux change to mode permissive
+      - name: Selinux change to mode permissive for RHEL
         ansible.posix.selinux:
           policy: targeted
           state: permissive
-        when: ansible_distribution == 'CentOS'
+        when: ansible_distribution == 'RedHat'
 
       - name: Selinux change to mode permissive for ubuntu 
         selinux:

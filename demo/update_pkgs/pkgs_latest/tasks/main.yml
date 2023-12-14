@@ -1,0 +1,27 @@
+---
+# tasks file for pkgs_latest
+ - name: Upgrade all packages in RHEL
+   yum: 
+    name: '*'
+    state: latest
+    security: yes
+   when: ansible_distribution == "RedHat"
+  #    register: var_pkg_redhat
+
+  #  - name: Package install message
+  #    debug:
+  #     var: var_pkg_redhat 
+
+ - name: Upgrade all packages in ubuntu
+   apt: 
+    name: '*'
+    update_cache: yes 
+    cache_valid_time: 3600
+    state: latest     
+   when: ansible_distribution == "Ubuntu"
+  #    register: var_pkg_ubuntu
+
+  #  - name: Package install message
+  #    debug:
+  #     var: var_pkg_ubuntu 
+

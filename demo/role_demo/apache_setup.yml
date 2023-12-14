@@ -9,6 +9,8 @@
       - name: My apache setup in roles
         include_role:
           name: setup-apache
+
+  # Enable this section to test web setup
   # - name: Testing web set up
   #   hosts: localhost
   #   become: no

@@ -1,6 +1,6 @@
 ---
  - hosts: nodes
-   remote_user: vagrant
+   remote_user: spatra
    become: yes
 
    tasks:
@@ -14,7 +14,6 @@
      with_items:
         - cvim1
         - cvim2
-        - cvim3
 
           #   - name: Make sure we have a 'cvim' group
           # group:
