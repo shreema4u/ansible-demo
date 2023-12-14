@@ -4,10 +4,7 @@
    become: yes
 
    tasks:
-   - name:  Create group if not present
-     group:
-        name: cvim
-        state: present
+ 
 
    - name: Add Unix Admins users
      user: name={{ item }} groups=cvim shell=/bin/bash
@@ -15,10 +12,7 @@
         - cvim1
         - cvim2
 
-          #   - name: Make sure we have a 'cvim' group
-          # group:
-          #name=cvim
-          # state=present
+
 
    - name: Allow cvim group to have passwordless sudo
      lineinfile:
